@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans transition-colors duration-200 antialiased;
+  }
+  
+  body.dark {
+    @apply bg-[#0b0f19] text-slate-100;
+  }
+}
+
+/* Custom premium layouts and glassmorphism components */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glow-card {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(99, 102, 241, 0.08);
+}
+
+.dark .glow-card:hover {
+  box-shadow: 0 10px 40px rgba(99, 102, 241, 0.15);
+}
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.45);
+}
+
+/* Gauge Chart Animation keyframes */
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.gauge-stroke {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: dash 1.5s ease-out forwards;
+}
