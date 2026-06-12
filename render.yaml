@@ -1,5 +1,6 @@
 services:
   # ─── Backend: Node.js REST API ─────────────────────────────────────────────
+  # NOTE: This service is already deployed at https://mediai-backend-1ngu.onrender.com
   - type: web
     name: mediai-backend
     runtime: node
@@ -56,7 +57,7 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://mediai-api.onrender.com/api   # Matches actual deployed backend service URL
+        value: https://mediai-backend-1ngu.onrender.com/api   # Confirmed deployed backend URL
     routes:
       - type: rewrite
         source: /*
