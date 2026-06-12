@@ -171,89 +171,81 @@ Below are the previews of the platform dashboards grouped by category. Click on 
 
 <details>
 <summary><b>🔗 View Public & Authentication Pages (2 Previews)</b></summary>
-<br>
 
 #### Landing Console
-![Landing Page](mediai/screenshots/01_landing.png)
+<img src="mediai/screenshots/01_landing.png" alt="Landing Page" width="100%" />
 
 #### Sign In Gate
-![Login Page](mediai/screenshots/02_login.png)
-
+<img src="mediai/screenshots/02_login.png" alt="Login Page" width="100%" />
 </details>
 
 <details>
 <summary><b>👤 View Patient Portal (7 Previews)</b></summary>
-<br>
 
 #### Patient Clinical Console
-![Patient Dashboard](mediai/screenshots/03_patient_dashboard.png)
+<img src="mediai/screenshots/03_patient_dashboard.png" alt="Patient Dashboard" width="100%" />
 
 #### Patient Profile Details
-![Patient Profile](mediai/screenshots/04_patient_profile.png)
+<img src="mediai/screenshots/04_patient_profile.png" alt="Patient Profile" width="100%" />
 
 #### Bookings & Scheduling
-![Patient Appointments](mediai/screenshots/05_patient_appointments.png)
+<img src="mediai/screenshots/05_patient_appointments.png" alt="Patient Appointments" width="100%" />
 
 #### Electronic Health Records (EHR)
-![Patient EHR](mediai/screenshots/06_patient_ehr.png)
+<img src="mediai/screenshots/06_patient_ehr.png" alt="Patient EHR" width="100%" />
 
 #### Diagnostic Lab Scan OCR
-![Patient Lab Reports](mediai/screenshots/07_patient_lab_reports.png)
+<img src="mediai/screenshots/07_patient_lab_reports.png" alt="Patient Lab Reports" width="100%" />
 
 #### Clinical Symptom Evaluator
-![Patient Predictions](mediai/screenshots/08_patient_predictions.png)
+<img src="mediai/screenshots/08_patient_predictions.png" alt="Patient Predictions" width="100%" />
 
 #### MediBot Automated Chat
-![Patient Chatbot](mediai/screenshots/09_patient_chatbot.png)
-
+<img src="mediai/screenshots/09_patient_chatbot.png" alt="Patient Chatbot" width="100%" />
 </details>
 
 <details>
 <summary><b>🩺 View Doctor Portal (6 Previews)</b></summary>
-<br>
 
 #### Clinical Operations Console
-![Doctor Dashboard](mediai/screenshots/10_doctor_dashboard.png)
+<img src="mediai/screenshots/10_doctor_dashboard.png" alt="Doctor Dashboard" width="100%" />
 
 #### Assigned Patients Records
-![Doctor Patients](mediai/screenshots/11_doctor_patients.png)
+<img src="mediai/screenshots/11_doctor_patients.png" alt="Doctor Patients" width="100%" />
 
 #### Scheduled Consultations
-![Doctor Appointments](mediai/screenshots/12_doctor_appointments.png)
+<img src="mediai/screenshots/12_doctor_appointments.png" alt="Doctor Appointments" width="100%" />
 
 #### Patient AI Prognostics & Risk Monitor
-![Doctor Predictions](mediai/screenshots/13_doctor_predictions.png)
+<img src="mediai/screenshots/13_doctor_predictions.png" alt="Doctor Predictions" width="100%" />
 
 #### AI Clinical Planner & Recommendations
-![Doctor Recommendations](mediai/screenshots/14_doctor_recommendations.png)
+<img src="mediai/screenshots/14_doctor_recommendations.png" alt="Doctor Recommendations" width="100%" />
 
 #### OCR Document Inbox & Reports
-![Doctor Reports](mediai/screenshots/15_doctor_reports.png)
-
+<img src="mediai/screenshots/15_doctor_reports.png" alt="Doctor Reports" width="100%" />
 </details>
 
 <details>
 <summary><b>🛡️ View Hospital Admin Portal (6 Previews)</b></summary>
-<br>
 
 #### Administration Overview Dashboard
-![Admin Dashboard](mediai/screenshots/16_admin_dashboard.png)
+<img src="mediai/screenshots/16_admin_dashboard.png" alt="Admin Dashboard" width="100%" />
 
 #### Bed Capacity Manager
-![Admin Beds](mediai/screenshots/17_admin_beds.png)
+<img src="mediai/screenshots/17_admin_beds.png" alt="Admin Beds" width="100%" />
 
 #### Supplies & Logistics Inventory
-![Admin Resources](mediai/screenshots/18_admin_resources.png)
+<img src="mediai/screenshots/18_admin_resources.png" alt="Admin Resources" width="100%" />
 
 #### Roster & Staff Shift Scheduler
-![Admin Staff](mediai/screenshots/19_admin_staff.png)
+<img src="mediai/screenshots/19_admin_staff.png" alt="Admin Staff" width="100%" />
 
 #### Emergency Telemetry Alerts
-![Admin Alerts](mediai/screenshots/20_admin_alerts.png)
+<img src="mediai/screenshots/20_admin_alerts.png" alt="Admin Alerts" width="100%" />
 
 #### Institutional Performance Analytics
-![Admin Analytics](mediai/screenshots/21_admin_analytics.png)
-
+<img src="mediai/screenshots/21_admin_analytics.png" alt="Admin Analytics" width="100%" />
 </details>
 
 ---
