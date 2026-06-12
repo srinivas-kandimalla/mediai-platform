@@ -12,55 +12,17 @@ All code and service folders reside within the [mediai](./mediai) subdirectory o
 
 ## 🗺️ System Architecture & Data Flow
 
-Below is the routing and service layer structure of the MediAI ecosystem:
+Below is the software system architecture and service routing diagram of the MediAI ecosystem:
 
-```
-                  +-----------------------------------+
-                  |        USER / BROWSER CLIENT      |
-                  +-----------------+-----------------+
-                                    |
-                                    v [HTTP / WS] (Port 80)
-                  +-----------------+-----------------+
-                  |          NGINX GATEWAY            |
-                  +-------+---------+---------+-------+
-                          |         |         |
-      / (Vite/React)      |         |         | /api (Node/Express)
-   +----------------------+         |         +----------------------+
-   |                                |                                |
-   v (Port 3000)                    | /ai (FastAPI)                  v (Port 5000)
-+--+-------------------+            |                            +---+------------------+
-|   FRONTEND CLIENT    |            v (Port 8000)                |   EXPRESS BACKEND    |
-|   React + TypeScript |    +-------+----------+                 |   Node.js REST API   |
-|   Tailwind + Zustand |    |    AI-SERVICE    |                 +---+--------+---------+
-+----------------------+    |  FastAPI (Python)|                     |        |
-                            |  ML & OCR Engine |                     |        |
-                            +------------------+                     v        v
-                                                                 [SQLite / DB] [Redis]
-                                                                 (Local dev.db) Port 6379
-```
-
-### 🔁 Internal Communication Flow
-
-```mermaid
-graph TD
-    Client[Browser Client: React + Zustand] -->|HTTP / WS| Nginx{Nginx Reverse Proxy}
-    Nginx -->|/| ReactDev[Vite Server: Port 3000]
-    Nginx -->|/api| ExpressAPI[Express Server: Port 5000]
-    Nginx -->|/ai| FastAPI[FastAPI AI Service: Port 8000]
-    
-    ExpressAPI -->|Session Tokens / Cache| Redis[(Redis Cache / Blacklist)]
-    ExpressAPI -->|ORM: Prisma| SQLite[(SQLite Database)]
-    ExpressAPI -->|OCR & ML Inference| FastAPI
-    
-    FastAPI -->|Load ML Weights| Models[Random Forest Weights]
-    FastAPI -->|Process Images| OCR[Tesseract OCR & OpenCV]
-```
+<img src="mediai/screenshots/architecture_diagram.png" alt="System Architecture Diagram" width="100%" />
 
 ---
 
 ## 🔄 Core System Workflows & Processes
 
-MediAI drives institutional performance through three highly realistic, end-to-end clinical workflow engines:
+MediAI drives institutional performance through high-efficiency, end-to-end clinical workflow pipelines:
+
+<img src="mediai/screenshots/workflow_diagram.png" alt="Clinical Workflow Diagram" width="100%" />
 
 ### 🧠 1. ML Disease Diagnostics & Auto-Triage Workflow
 Predicts clinical risk factors from input metrics and automatically drafts recommendations if critical scores are returned.
