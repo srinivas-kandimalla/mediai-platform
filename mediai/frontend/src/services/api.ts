@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create central API client
 const api = axios.create({
-  baseURL: '/api', // Proxied via Vite dev server or Nginx
+  baseURL: (import.meta.env.VITE_API_URL as string) || '/api', // Configured absolute URL for production, or relative /api proxied locally
   headers: {
     'Content-Type': 'application/json',
   },
