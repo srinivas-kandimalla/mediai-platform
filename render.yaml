@@ -1,0 +1,63 @@
+services:
+  # ─── Backend: Node.js REST API ─────────────────────────────────────────────
+  - type: web
+    name: mediai-backend
+    runtime: node
+    rootDir: mediai/backend
+    buildCommand: npm install && npx prisma generate && npx prisma db push --accept-data-loss
+    startCommand: npm run start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false          # Set manually in Render dashboard (PostgreSQL connection string)
+      - key: REDIS_URL
+        sync: false          # Set manually in Render dashboard (Upstash Redis URL)
+      - key: JWT_SECRET
+        generateValue: true  # Render auto-generates a secure random value
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: AI_SERVICE_URL
+        value: https://mediai-ai-service.onrender.com   # FastAPI AI microservice URL (deploy separately if needed)
+      - key: OPENAI_API_KEY
+        sync: false          # Optional – set manually if using ChatGPT
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_PHONE_NUMBER
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_SECURE
+        value: "false"
+
+  # ─── Frontend: React/Vite Static Site ──────────────────────────────────────
+  - type: web
+    name: mediai-frontend
+    runtime: static
+    rootDir: mediai/frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://mediai-api.onrender.com/api   # Matches actual deployed backend service URL
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html     # Required for React Router (SPA fallback)
