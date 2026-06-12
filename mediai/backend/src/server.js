@@ -48,7 +48,13 @@ io.on('connection', (socket) => {
 });
 
 // Middleware
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
