@@ -58,26 +58,106 @@ graph TD
 
 ---
 
-## 🔄 Core Project Workflows
+## 🔄 Core System Workflows & Processes
 
-### 📥 1. OCR Medical Lab Scan Extraction
-* **Trigger**: A Patient uploads a blood panel hematology report (`.png` / `.jpg` / `.pdf`).
-* **Processing**: The Express Backend uploads the file and proxies it to the FastAPI `ai-service`. The Python service runs image pre-processing (grayscale, thresholding via OpenCV) and Optical Character Recognition (PyTesseract) to isolate the document text.
-* **Extraction**: RegEx patterns parse numerical indicators (e.g., Hemoglobin levels, Glucose numbers).
-* **Action**: Critical flags are stored in the database. Vitals exceeding safe parameters automatically alert the clinic.
+MediAI drives institutional performance through three highly realistic, end-to-end clinical workflow engines:
 
-### 🧠 2. ML Prognostic & Risk Inference
-* **Trigger**: A Patient fills out a symptom checklist or a doctor uploads a vital screening panel.
-* **Processing**: Clinical telemetry (BP, Sugar levels, Age, BMI) is pushed to the FastAPI `ai-service`.
-* **Inference**: High-efficiency pre-trained Random Forest ML models evaluate:
-  - **Disease Diagnosis**: Predicts likely condition with probability risk index.
-  - **Patient Outcome**: Forecasts ICU admission requirement and expected hospital stay duration.
-* **Action**: Saves results to history logs to generate interactive trend-lines on client dashboards.
+### 🧠 1. ML Disease Diagnostics & Auto-Triage Workflow
+Predicts clinical risk factors from input metrics and automatically drafts recommendations if critical scores are returned.
 
-### 🚨 3. Real-Time Emergency Vital Alerts
-* **Trigger**: Telemetry records abnormal stats (Oxygen < 90%, HR > 150 bpm, BP > 180/120 mmHg).
-* **Evaluation**: The vital check module immediately evaluates these boundaries.
-* **Action**: Triggers WebSockets (Socket.io) dispatching screen-wide alert popups to active Doctor/Admin dashboards, accompanied by Twilio SMS alerts.
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Patient as Patient Portal
+    participant React as React Client (Vite)
+    participant Express as Node Express Backend
+    participant FastAPI as FastAPI AI Service
+    participant DB as SQLite DB (Prisma)
+
+    Patient->>React: Enters symptoms & telemetry
+    React->>Express: POST /api/ai/predict-disease (Attach JWT)
+    Note over Express: auth.js verifies token & role
+    Express->>FastAPI: POST /ai/predict-disease (Payload)
+    Note over FastAPI: MLInferenceService loads disease_model.pkl<br/>Runs Scikit-Learn Random Forest Classifier
+    FastAPI-->>Express: Returns { predictedDisease, riskScore, severityLevel }
+    Express->>DB: Prisma.diseasePrediction.create()
+    alt riskScore >= 0.70 (High Risk Triage)
+        Note over Express: Detects critical threshold breach
+        Express->>DB: Prisma.treatmentRecommendation.create() (Auto-plan)
+    end
+    Express-->>React: Response { success: true, data }
+    React-->>Patient: Updates Prognostics dashboard & trend charts
+```
+
+* **Step-by-Step Pipeline**:
+  1. **User Action**: The patient logs in and inputs clinical data (Age, Symptoms checkmarks, BP, Sugar levels, BMI) on [PatientPredictions.tsx](./mediai/frontend/src/pages/PatientPredictions.tsx).
+  2. **API Request**: The frontend client forwards the request to `/api/ai/predict-disease`. The token interceptor in `api.ts` adds the user's JWT credentials.
+  3. **Triage Validation**: The backend controller [aiController.predictDisease](./mediai/backend/src/controllers/aiController.js) checks inputs and forwards them to the Python microservice at port 8000.
+  4. **Random Forest Inference**: Inside the FastAPI service, `MLInferenceService` ([inference.py](./mediai/ai-service/services/inference.py)) builds a 15-dimension feature vector mapping symptoms, then feeds it to the pre-trained `disease_model.pkl`. The model yields the classification probability score.
+  5. **Auto-Treatment Action**: If the resulting `riskScore >= 0.70`, the backend automatically generates a `TreatmentRecommendation` profile outlining required tests (e.g. CBC, ECG) to fast-track clinical care.
+
+---
+
+### 📥 2. Lab Scan OCR Text Extraction & Validation
+Processes hematology scans to extract key biomarkers and flags abnormal levels.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Patient as Patient Portal
+    participant Express as Node Express Backend
+    participant FastAPI as FastAPI AI Service
+    participant OCR as OpenCV & Tesseract OCR
+    participant DB as SQLite DB (Prisma)
+
+    Patient->>Express: POST /api/patients/:id/lab-reports (File Upload)
+    Express->>FastAPI: POST /ai/analyze-report (fileUrl, type)
+    FastAPI->>OCR: Grayscale -> Thresholding -> Text extraction
+    OCR-->>FastAPI: Returns unstructured text content
+    Note over FastAPI: Regular Expression (RegEx) matching patterns
+    FastAPI-->>Express: Returns { extractedValues, abnormalFlags, summary }
+    Express->>DB: Prisma.labReport.create()
+    Express-->>Patient: Displays parsed biomarkers & warnings
+```
+
+* **Step-by-Step Pipeline**:
+  1. **Document Upload**: The patient uploads a blood panel scan on [PatientLabReports.tsx](./mediai/frontend/src/pages/PatientLabReports.tsx).
+  2. **OCR Pre-processing**: The file metadata is recorded by Express and passed to the FastAPI `/ai/analyze-report` endpoint. The Python parser ([ocr_nlp.py](./mediai/ai-service/services/ocr_nlp.py)) reads the image.
+  3. **Computer Vision & Extraction**: Python grayscales and thresholds the scan using OpenCV to clear visual artifacts, then feeds it to PyTesseract.
+  4. **RegEx Evaluation**: The parsed characters are evaluated by RegEx pattern pipelines to capture vitals like Hemoglobin (`hemoglobin: \d+\.\d+`) and Glucose (`glucose: \d+\.\d+`).
+  5. **Vital Warnings**: Values exceeding safe limits (e.g. Hemoglobin < 11.0 g/dL) are flagged in the database and displayed as highlighted cards in the patient file.
+
+---
+
+### 📅 3. Greedy AI Staff Shift Optimization Solver
+Generates optimized weekly rosters matching staff availability with ward capacity demands.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Admin as Admin Portal
+    participant Express as Node Express Backend
+    participant FastAPI as FastAPI AI Service
+    participant Solver as Roster Greedy Solver
+    participant DB as SQLite DB (Prisma)
+
+    Admin->>Express: POST /api/staff/schedule/optimize (Ward demands)
+    Express->>FastAPI: POST /ai/optimize-staff (Demands, Staff pool)
+    Note over FastAPI: Runs constraint greedy allocation algorithm
+    Solver-->>FastAPI: Returns weekly shifts allocation table
+    FastAPI-->>Express: Returns roster payload
+    Express->>DB: Prisma.staffSchedule.createMany()
+    Express-->>Admin: Populates calendar schedule board
+```
+
+* **Step-by-Step Pipeline**:
+  1. **Roster Demands**: An Administrator inputs ward staff requirements per department (ICU, General, Emergency) on [AdminStaff.tsx](./mediai/frontend/src/pages/AdminStaff.tsx).
+  2. **Optimization Query**: Express forwards the demand parameters along with list of active doctors/nurses.
+  3. **FastAPI Greedy Algorithm**: The solver ([analytics_ai.py](./mediai/ai-service/services/analytics_ai.py)) executes a greedy constraint-satisfaction solver. It runs recursive matching rounds:
+     - Assigns staff to their preferred departments.
+     - Checks rest period constraints (restricting consecutive double shifts).
+     - Minimizes ward coverage gaps.
+  4. **Calendar Roster Render**: The finalized roster is stored under the `StaffSchedule` schema table and populates the weekly admin shift calendar.
 
 ---
 
@@ -239,4 +319,3 @@ The project runs using standard containers or local installs. Full configuration
 
 #### Institutional Performance Analytics
 <img src="mediai/screenshots/21_admin_analytics.png" alt="Admin Analytics" width="100%" />
-
