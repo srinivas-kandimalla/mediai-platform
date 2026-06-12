@@ -20,6 +20,14 @@ app.add_middleware(
 )
 
 # Health Check Route
+@app.get("/")
+def read_root():
+    return {
+        "message": "Welcome to the MediAI FastAPI AI-Service",
+        "healthcheck": "/health",
+        "documentation": "/docs"
+    }
+
 @app.get("/health")
 @app.get("/ai/health") # Supporting both namespaces
 def health_check():
