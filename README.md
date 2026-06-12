@@ -165,23 +165,18 @@ The project runs using standard containers or local installs. Full configuration
 
 ---
 
-## 📸 Interactive Screenshot Previews
+## 📸 Screenshot Previews & Console Walkthrough
 
-Below are the previews of the platform dashboards grouped by category. Click on each section to expand the previews.
-
-<details>
-<summary><b>🔗 View Public & Authentication Pages (2 Previews)</b></summary>
-
+### Public Pages
 #### Landing Console
 <img src="mediai/screenshots/01_landing.png" alt="Landing Page" width="100%" />
 
 #### Sign In Gate
 <img src="mediai/screenshots/02_login.png" alt="Login Page" width="100%" />
-</details>
 
-<details>
-<summary><b>👤 View Patient Portal (7 Previews)</b></summary>
+---
 
+### Patient Portal
 #### Patient Clinical Console
 <img src="mediai/screenshots/03_patient_dashboard.png" alt="Patient Dashboard" width="100%" />
 
@@ -202,11 +197,10 @@ Below are the previews of the platform dashboards grouped by category. Click on 
 
 #### MediBot Automated Chat
 <img src="mediai/screenshots/09_patient_chatbot.png" alt="Patient Chatbot" width="100%" />
-</details>
 
-<details>
-<summary><b>🩺 View Doctor Portal (6 Previews)</b></summary>
+---
 
+### Doctor Portal
 #### Clinical Operations Console
 <img src="mediai/screenshots/10_doctor_dashboard.png" alt="Doctor Dashboard" width="100%" />
 
@@ -224,11 +218,10 @@ Below are the previews of the platform dashboards grouped by category. Click on 
 
 #### OCR Document Inbox & Reports
 <img src="mediai/screenshots/15_doctor_reports.png" alt="Doctor Reports" width="100%" />
-</details>
 
-<details>
-<summary><b>🛡️ View Hospital Admin Portal (6 Previews)</b></summary>
+---
 
+### Hospital Admin Portal
 #### Administration Overview Dashboard
 <img src="mediai/screenshots/16_admin_dashboard.png" alt="Admin Dashboard" width="100%" />
 
@@ -246,25 +239,4 @@ Below are the previews of the platform dashboards grouped by category. Click on 
 
 #### Institutional Performance Analytics
 <img src="mediai/screenshots/21_admin_analytics.png" alt="Admin Analytics" width="100%" />
-</details>
 
----
-
-## 🎨 Design Philosophy & UX
-
-MediAI is constructed using a **curated dark-mode design system** customized for high-frequency clinical environments:
-* **Slate-Indigo Interface**: Crafted with custom HSL dark-mode tailwind tokens to reduce clinical screen fatigue.
-* **Micro-interactions & Animations**: Leverages custom transition hooks and pulse alerts to naturally guide clinical eyes to critical alarms.
-* **Responsive Visual Hierarchy**: Designed to render perfectly on clinical tablets, desktop terminals, and emergency smartphones.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](./mediai/LICENSE) file for details.
-
----
-
-<p align="center">
-  Developed with 🧬 and 🧠 by the <b>MediAI Dev Team</b> & <b>Antigravity AI</b>.
-  <br>
-  <i>Empowering clinical workflows with real-time, microservice-driven operational intelligence.</i>
-</p>
