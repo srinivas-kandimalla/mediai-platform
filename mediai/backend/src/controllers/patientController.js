@@ -5,6 +5,28 @@ import { triggerEmergencyAlert } from '../services/notificationService.js';
 
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:8000';
 
+export const listPatients = async (req, res, next) => {
+  try {
+    const patients = await prisma.patient.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            isActive: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.status(200).json({ success: true, data: patients });
+  } catch (err) {
+    logger.error('List patients error:', err);
+    next(err);
+  }
+};
+
 export const createPatientProfile = async (req, res, next) => {
   try {
     const { userId, age, gender, bloodGroup, weight, height, allergies, medicalHistory, familyHistory, insuranceDetails } = req.body;

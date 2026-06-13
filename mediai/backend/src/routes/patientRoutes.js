@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  listPatients,
   createPatientProfile,
   getPatientDetails,
   updatePatientProfile,
@@ -14,6 +15,7 @@ import { verifyToken, authorizeRoles } from '../middleware/auth.js';
 
 const router = express.Router();
 
+router.get('/', verifyToken, authorizeRoles('ADMIN', 'DOCTOR'), listPatients); // List all patients (admin/doctor only)
 router.post('/', createPatientProfile); // Can be called during user signup flow
 router.get('/:id', verifyToken, getPatientDetails);
 router.put('/:id', verifyToken, updatePatientProfile);

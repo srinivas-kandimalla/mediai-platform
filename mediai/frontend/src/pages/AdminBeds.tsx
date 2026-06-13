@@ -33,18 +33,12 @@ export const AdminBeds: React.FC = () => {
 
   const fetchPatients = async () => {
     try {
-      // Find all doctors first to retrieve assigned patient arrays or fetch globally
-      const res = await api.get('/doctors'); // Or any list endpoints
-      // Fetch patients from endpoint (we can also fallback list)
-      const patRes = await api.get('/patients/1').catch(() => null); // Let's use doctors listing or search
-      
-      // For testing, let's pre-populate patient listings
-      setPatients([
-        { id: 'pat-1', userId: 'usr-1', age: 35, gender: 'Male', bloodGroup: 'O+', weight: 72, height: 178, allergies: 'None', medicalHistory: 'None', familyHistory: 'None', insuranceDetails: 'None', createdAt: '', user: { id: 'usr-1', name: 'John Doe', email: 'john@example.com', role: 'PATIENT', createdAt: '', isActive: true } },
-        { id: 'pat-2', userId: 'usr-2', age: 48, gender: 'Female', bloodGroup: 'A-', weight: 64, height: 165, allergies: 'Penicillin', medicalHistory: 'Hypertension', familyHistory: 'None', insuranceDetails: 'None', createdAt: '', user: { id: 'usr-2', name: 'Jane Miller', email: 'jane@example.com', role: 'PATIENT', createdAt: '', isActive: true } },
-      ]);
+      const res = await api.get('/patients');
+      if (res.data.success) {
+        setPatients(res.data.data);
+      }
     } catch (err) {
-      console.error(err);
+      console.error('Failed to load patient list', err);
     }
   };
 
