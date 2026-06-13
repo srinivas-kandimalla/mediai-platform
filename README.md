@@ -139,6 +139,29 @@ The system operates on strict **Role-Based Access Control (RBAC)** to secure pat
 
 ---
 
+## 🌐 Live Demo
+
+The application is fully deployed and accessible at:
+
+| Service | URL |
+| :--- | :--- |
+| **Frontend (React App)** | [https://mediai-frontend-y0e3.onrender.com](https://mediai-frontend-y0e3.onrender.com) |
+| **Backend API Health** | [https://mediai-backend-1ngu.onrender.com/health](https://mediai-backend-1ngu.onrender.com/health) |
+
+> **Note:** Hosted on Render free tier — services may take **30–60 seconds** to wake up on first visit.
+
+### 🔑 Demo Login Credentials
+
+Use any of the following accounts to explore the full feature set:
+
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| 👑 **Admin** | `admin@mediai.org` | `M3diAI_SecureP@ss2026!` |
+| 🩺 **Doctor** | `doctor@mediai.org` | `M3diAI_SecureP@ss2026!` |
+| 🏥 **Patient** | `patient@mediai.org` | `M3diAI_SecureP@ss2026!` |
+
+---
+
 ## 🚀 Setup & Running Instructions
 
 The project runs using standard containers or local installs. Full configuration details are in the [mediai directory](./mediai).
@@ -160,6 +183,7 @@ The project runs using standard containers or local installs. Full configuration
    - FastAPI Healthcheck: `http://localhost/ai/health`
 
 ---
+
 
 ## 🔌 API Endpoints Reference
 
