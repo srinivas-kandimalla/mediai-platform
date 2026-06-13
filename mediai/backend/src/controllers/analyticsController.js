@@ -173,11 +173,16 @@ export const generateReports = async (req, res, next) => {
         }
       });
     } else if (type === 'diseases') {
-      reportData = await prisma.diseasePrediction.findMany({
+      const rawData = await prisma.diseasePrediction.findMany({
         include: {
           patient: { include: { user: { select: { name: true } } } }
         }
       });
+      reportData = rawData.map(p => ({
+        ...p,
+        symptoms: typeof p.symptoms === 'string' ? JSON.parse(p.symptoms) : (Array.isArray(p.symptoms) ? p.symptoms : []),
+        inputs: typeof p.inputs === 'string' ? JSON.parse(p.inputs) : (p.inputs || {}),
+      }));
     } else {
       reportData = await prisma.resource.findMany();
     }
