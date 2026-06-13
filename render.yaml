@@ -5,7 +5,7 @@ services:
     name: mediai-backend
     runtime: node
     rootDir: mediai/backend
-    buildCommand: npm install && npx prisma generate && npx prisma db push --accept-data-loss
+    buildCommand: npm install && npx prisma generate && npx prisma db push --accept-data-loss && node prisma/seed.js
     startCommand: npm run start
     plan: free
     envVars:
