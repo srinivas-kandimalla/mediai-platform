@@ -1,12 +1,10 @@
 # 🏥 MediAI — AI-Powered Healthcare Prediction & Resource Management System
 
-[![Frontend - React](https://img.shields.io/badge/Frontend-React%20%2B%20TS%20%2B%20Tailwind-blue?logo=react&logoColor=white)](./mediai/frontend)
-[![Backend - Node](https://img.shields.io/badge/Backend-Express%20%2B%20Prisma%20%2B%20Sqlite-green?logo=nodedotjs&logoColor=white)](./mediai/backend)
-[![AI Service - FastAPI](https://img.shields.io/badge/AI%20Service-FastAPI%20%2B%20Scikit--Learn-red?logo=fastapi&logoColor=white)](./mediai/ai-service)
+[![Frontend - React](https://img.shields.io/badge/Frontend-React%20%2B%20TS%20%2B%20Tailwind-blue?logo=react&logoColor=white)](./frontend)
+[![Backend - Node](https://img.shields.io/badge/Backend-Express%20%2B%20Prisma%20%2B%20Sqlite-green?logo=nodedotjs&logoColor=white)](./backend)
+[![AI Service - FastAPI](https://img.shields.io/badge/AI%20Service-FastAPI%20%2B%20Scikit--Learn-red?logo=fastapi&logoColor=white)](./ai-service)
 
 MediAI is a hospital-grade operational intelligence platform designed to predict patient outcomes, run clinical diagnostics screenings using Random Forest ML algorithms, schedule doctors/nurses shift rosters, track bed allocations, and dispatch emergency alerts.
-
-All code and service folders reside within the [mediai](./mediai) subdirectory of this repository.
 
 ---
 
@@ -14,7 +12,7 @@ All code and service folders reside within the [mediai](./mediai) subdirectory o
 
 Below is the software system architecture and service routing diagram of the MediAI ecosystem:
 
-<img src="mediai/screenshots/architecture_diagram.png" alt="System Architecture Diagram" width="100%" />
+<img src="screenshots/architecture_diagram.png" alt="System Architecture Diagram" width="100%" />
 
 ---
 
@@ -22,7 +20,7 @@ Below is the software system architecture and service routing diagram of the Med
 
 MediAI drives institutional performance through high-efficiency, end-to-end clinical workflow pipelines:
 
-<img src="mediai/screenshots/workflow_diagram.png" alt="Clinical Workflow Diagram" width="100%" />
+<img src="screenshots/workflow_diagram.png" alt="Clinical Workflow Diagram" width="100%" />
 
 ### 🧠 1. ML Disease Diagnostics & Auto-Triage Workflow
 Predicts clinical risk factors from input metrics and automatically drafts recommendations if critical scores are returned.
@@ -52,10 +50,10 @@ sequenceDiagram
 ```
 
 * **Step-by-Step Pipeline**:
-  1. **User Action**: The patient logs in and inputs clinical data (Age, Symptoms checkmarks, BP, Sugar levels, BMI) on [PatientPredictions.tsx](./mediai/frontend/src/pages/PatientPredictions.tsx).
+  1. **User Action**: The patient logs in and inputs clinical data (Age, Symptoms checkmarks, BP, Sugar levels, BMI) on [PatientPredictions.tsx](./frontend/src/pages/PatientPredictions.tsx).
   2. **API Request**: The frontend client forwards the request to `/api/ai/predict-disease`. The token interceptor in `api.ts` adds the user's JWT credentials.
-  3. **Triage Validation**: The backend controller [aiController.predictDisease](./mediai/backend/src/controllers/aiController.js) checks inputs and forwards them to the Python microservice at port 8000.
-  4. **Random Forest Inference**: Inside the FastAPI service, `MLInferenceService` ([inference.py](./mediai/ai-service/services/inference.py)) builds a 15-dimension feature vector mapping symptoms, then feeds it to the pre-trained `disease_model.pkl`. The model yields the classification probability score.
+  3. **Triage Validation**: The backend controller [aiController.predictDisease](./backend/src/controllers/aiController.js) checks inputs and forwards them to the Python microservice at port 8000.
+  4. **Random Forest Inference**: Inside the FastAPI service, `MLInferenceService` ([inference.py](./ai-service/services/inference.py)) builds a 15-dimension feature vector mapping symptoms, then feeds it to the pre-trained `disease_model.pkl`. The model yields the classification probability score.
   5. **Auto-Treatment Action**: If the resulting `riskScore >= 0.70`, the backend automatically generates a `TreatmentRecommendation` profile outlining required tests (e.g. CBC, ECG) to fast-track clinical care.
 
 ---
@@ -83,8 +81,8 @@ sequenceDiagram
 ```
 
 * **Step-by-Step Pipeline**:
-  1. **Document Upload**: The patient uploads a blood panel scan on [PatientLabReports.tsx](./mediai/frontend/src/pages/PatientLabReports.tsx).
-  2. **OCR Pre-processing**: The file metadata is recorded by Express and passed to the FastAPI `/ai/analyze-report` endpoint. The Python parser ([ocr_nlp.py](./mediai/ai-service/services/ocr_nlp.py)) reads the image.
+  1. **Document Upload**: The patient uploads a blood panel scan on [PatientLabReports.tsx](./frontend/src/pages/PatientLabReports.tsx).
+  2. **OCR Pre-processing**: The file metadata is recorded by Express and passed to the FastAPI `/ai/analyze-report` endpoint. The Python parser ([ocr_nlp.py](./ai-service/services/ocr_nlp.py)) reads the image.
   3. **Computer Vision & Extraction**: Python grayscales and thresholds the scan using OpenCV to clear visual artifacts, then feeds it to PyTesseract.
   4. **RegEx Evaluation**: The parsed characters are evaluated by RegEx pattern pipelines to capture vitals like Hemoglobin (`hemoglobin: \d+\.\d+`) and Glucose (`glucose: \d+\.\d+`).
   5. **Vital Warnings**: Values exceeding safe limits (e.g. Hemoglobin < 11.0 g/dL) are flagged in the database and displayed as highlighted cards in the patient file.
@@ -113,9 +111,9 @@ sequenceDiagram
 ```
 
 * **Step-by-Step Pipeline**:
-  1. **Roster Demands**: An Administrator inputs ward staff requirements per department (ICU, General, Emergency) on [AdminStaff.tsx](./mediai/frontend/src/pages/AdminStaff.tsx).
+  1. **Roster Demands**: An Administrator inputs ward staff requirements per department (ICU, General, Emergency) on [AdminStaff.tsx](./frontend/src/pages/AdminStaff.tsx).
   2. **Optimization Query**: Express forwards the demand parameters along with list of active doctors/nurses.
-  3. **FastAPI Greedy Algorithm**: The solver ([analytics_ai.py](./mediai/ai-service/services/analytics_ai.py)) executes a greedy constraint-satisfaction solver. It runs recursive matching rounds:
+  3. **FastAPI Greedy Algorithm**: The solver ([analytics_ai.py](./ai-service/services/analytics_ai.py)) executes a greedy constraint-satisfaction solver. It runs recursive matching rounds:
      - Assigns staff to their preferred departments.
      - Checks rest period constraints (restricting consecutive double shifts).
      - Minimizes ward coverage gaps.
@@ -164,11 +162,11 @@ Use any of the following accounts to explore the full feature set:
 
 ## 🚀 Setup & Running Instructions
 
-The project runs using standard containers or local installs. Full configuration details are in the [mediai directory](./mediai).
+The project runs using standard containers or local installs. Full configuration details are in this directory.
 
 ### Running with Docker Compose (Recommended)
 
-1. Navigate to the root of the [mediai](./mediai) directory.
+1. Navigate to the root of this directory.
 2. Copy `.env.example` to `.env`:
    ```bash
    cp .env.example .env
@@ -235,73 +233,73 @@ The project runs using standard containers or local installs. Full configuration
 
 ### Public Pages
 #### Landing Console
-<img src="mediai/screenshots/01_landing.png" alt="Landing Page" width="100%" />
+<img src="screenshots/01_landing.png" alt="Landing Page" width="100%" />
 
 #### Sign In Gate
-<img src="mediai/screenshots/02_login.png" alt="Login Page" width="100%" />
+<img src="screenshots/02_login.png" alt="Login Page" width="100%" />
 
 ---
 
 ### Patient Portal
 #### Patient Clinical Console
-<img src="mediai/screenshots/03_patient_dashboard.png" alt="Patient Dashboard" width="100%" />
+<img src="screenshots/03_patient_dashboard.png" alt="Patient Dashboard" width="100%" />
 
 #### Patient Profile Details
-<img src="mediai/screenshots/04_patient_profile.png" alt="Patient Profile" width="100%" />
+<img src="screenshots/04_patient_profile.png" alt="Patient Profile" width="100%" />
 
 #### Bookings & Scheduling
-<img src="mediai/screenshots/05_patient_appointments.png" alt="Patient Appointments" width="100%" />
+<img src="screenshots/05_patient_appointments.png" alt="Patient Appointments" width="100%" />
 
 #### Electronic Health Records (EHR)
-<img src="mediai/screenshots/06_patient_ehr.png" alt="Patient EHR" width="100%" />
+<img src="screenshots/06_patient_ehr.png" alt="Patient EHR" width="100%" />
 
 #### Diagnostic Lab Scan OCR
-<img src="mediai/screenshots/07_patient_lab_reports.png" alt="Patient Lab Reports" width="100%" />
+<img src="screenshots/07_patient_lab_reports.png" alt="Patient Lab Reports" width="100%" />
 
 #### Clinical Symptom Evaluator
-<img src="mediai/screenshots/08_patient_predictions.png" alt="Patient Predictions" width="100%" />
+<img src="screenshots/08_patient_predictions.png" alt="Patient Predictions" width="100%" />
 
 #### MediBot Automated Chat
-<img src="mediai/screenshots/09_patient_chatbot.png" alt="Patient Chatbot" width="100%" />
+<img src="screenshots/09_patient_chatbot.png" alt="Patient Chatbot" width="100%" />
 
 ---
 
 ### Doctor Portal
 #### Clinical Operations Console
-<img src="mediai/screenshots/10_doctor_dashboard.png" alt="Doctor Dashboard" width="100%" />
+<img src="screenshots/10_doctor_dashboard.png" alt="Doctor Dashboard" width="100%" />
 
 #### Assigned Patients Records
-<img src="mediai/screenshots/11_doctor_patients.png" alt="Doctor Patients" width="100%" />
+<img src="screenshots/11_doctor_patients.png" alt="Doctor Patients" width="100%" />
 
 #### Scheduled Consultations
-<img src="mediai/screenshots/12_doctor_appointments.png" alt="Doctor Appointments" width="100%" />
+<img src="screenshots/12_doctor_appointments.png" alt="Doctor Appointments" width="100%" />
 
 #### Patient AI Prognostics & Risk Monitor
-<img src="mediai/screenshots/13_doctor_predictions.png" alt="Doctor Predictions" width="100%" />
+<img src="screenshots/13_doctor_predictions.png" alt="Doctor Predictions" width="100%" />
 
 #### AI Clinical Planner & Recommendations
-<img src="mediai/screenshots/14_doctor_recommendations.png" alt="Doctor Recommendations" width="100%" />
+<img src="screenshots/14_doctor_recommendations.png" alt="Doctor Recommendations" width="100%" />
 
 #### OCR Document Inbox & Reports
-<img src="mediai/screenshots/15_doctor_reports.png" alt="Doctor Reports" width="100%" />
+<img src="screenshots/15_doctor_reports.png" alt="Doctor Reports" width="100%" />
 
 ---
 
 ### Hospital Admin Portal
 #### Administration Overview Dashboard
-<img src="mediai/screenshots/16_admin_dashboard.png" alt="Admin Dashboard" width="100%" />
+<img src="screenshots/16_admin_dashboard.png" alt="Admin Dashboard" width="100%" />
 
 #### Bed Capacity Manager
-<img src="mediai/screenshots/17_admin_beds.png" alt="Admin Beds" width="100%" />
+<img src="screenshots/17_admin_beds.png" alt="Admin Beds" width="100%" />
 
 #### Supplies & Logistics Inventory
-<img src="mediai/screenshots/18_admin_resources.png" alt="Admin Resources" width="100%" />
+<img src="screenshots/18_admin_resources.png" alt="Admin Resources" width="100%" />
 
 #### Roster & Staff Shift Scheduler
-<img src="mediai/screenshots/19_admin_staff.png" alt="Admin Staff" width="100%" />
+<img src="screenshots/19_admin_staff.png" alt="Admin Staff" width="100%" />
 
 #### Emergency Telemetry Alerts
-<img src="mediai/screenshots/20_admin_alerts.png" alt="Admin Alerts" width="100%" />
+<img src="screenshots/20_admin_alerts.png" alt="Admin Alerts" width="100%" />
 
 #### Institutional Performance Analytics
-<img src="mediai/screenshots/21_admin_analytics.png" alt="Admin Analytics" width="100%" />
+<img src="screenshots/21_admin_analytics.png" alt="Admin Analytics" width="100%" />
